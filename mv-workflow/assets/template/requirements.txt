@@ -1,0 +1,13 @@
+# Python 3.12; the version after each package is what the 神のまにまに MV was made with
+moderngl                 # 5.13  offscreen OpenGL 3.3 compositing
+numpy                    # 2.5
+opencv-python-headless   # 5.0   (opencv-contrib-python-headless works too)
+skia-python              # 144.1 text, procedural elements
+scipy                    # 1.18
+Pillow                   # 13.0
+librosa                  # 1.0   src/analyze_audio.py
+# per-character lyric timing (work/syll_mms.py) and the vocal stem
+torch                    # 2.15 (CPU is enough)
+torchaudio               # 2.11
+pykakasi                 # 2.3
+demucs                   # 4.1

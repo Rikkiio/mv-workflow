@@ -16,6 +16,11 @@ A Claude Code skill (written in Chinese) for making music videos with code: beat
   - `contact_sheet.py`：按时间间隔抽帧，拼成接触表；
   - `compare_sheet.py`：新旧两版同一时刻并排的对比图；
   - `assemble.py`：把重渲的片段按帧拼进底片，压出 1080p、720p 和手机版。
+- **项目模板**（`assets/template/`）：可以直接用的 2.5D 合成引擎（moderngl）、多进程渲染器、音频分析、逐字歌词对齐、素材清理和自检工具，外加一个演示镜头。整个复制一份就是一个新的 MV 项目，用法见里面的 README。
+
+模板里的演示镜头渲出来是这样（一个一直往前推的镜头中的一帧）：
+
+![演示镜头](media/demo.jpg)
 
 ## 安装
 
@@ -27,9 +32,10 @@ A Claude Code skill (written in Chinese) for making music videos with code: beat
 ## 需要的环境
 
 - 工具脚本：Python 3（`opencv-python`、`numpy`、`Pillow`），`ffmpeg` 要在 PATH 里。
-- 完整流程还要：`moderngl`、`skia-python`、`scipy`、`torchaudio`、`demucs`，Blender（可选），以及一个生图工具（gpt-image 或本地 ComfyUI）。
+- 项目模板：依赖写在 `mv-workflow/assets/template/requirements.txt`（Python 3.12 上测过）；合成引擎需要支持 OpenGL 3.3 的显卡。
+- 可选：Blender（渲三维底片），以及一个生图工具（gpt-image 或本地 ComfyUI）。
 
 ## 说明
 
-- skill 里多处提到的"参考实现"（合成引擎 `src/mm`、镜头代码、`work/` 下的各种工具）在作者本地的项目里，这个仓库没有包含。流程、规则和 `scripts/` 里的工具可以直接用；要完整跑通，需要自己搭一个类似的合成引擎。
-- 不含歌曲音频、歌词和角色素材。
+- 模板里是通用的引擎和工具；《神のまにまに》MV 本身的镜头代码、素材、音频和歌词都不在这里。文档里偶尔提到的个别专用脚本（比如做封面、插图的）只在作者本地的项目里。
+- 字体用的是 14 个 Google Fonts 免费字体（SIL OFL），仓库里不附带，由 `fonts/fetch_fonts.py` 从 Google Fonts 的 GitHub 仓库下载。

@@ -8,7 +8,7 @@
 | `scripts/contact_sheet.py`（本 skill） | 每隔 N 秒抽一帧拼成接触表，看全片节奏和构图 | `python contact_sheet.py VIDEO OUT 0 256 2` |
 | `work/lyric_qa.py` | 每行最后一个音节刚唱完时的帧，整行要完整清楚 | `python work/lyric_qa.py VIDEO OUTPREFIX` |
 | `work/cutsheet.py` | 每个切点前后 13 帧，查转场有没有跳和闪 | `python work/cutsheet.py VIDEO OUT OFFSET CUT1,CUT2` |
-| `work/motion_audit.py` | 每个镜头的光流中位数和推拉速度，标出几乎不动的镜头 | `python work/motion_audit.py VIDEO` |
+| `work/motion_audit.py` | 每个镜头的光流中位数和推拉速度，标出几乎不动的镜头（大片平涂的画面会误报，先看再改） | `python work/motion_audit.py VIDEO` |
 | `work/jerk_scan.py` | 镜头内部的运动突变（不在切点上的） | `python work/jerk_scan.py VIDEO OFFSET CUTS` |
 | `work/flicker_scan.py` | 局部的单帧闪烁（某块画面只出现一帧又消失） | `python work/flicker_scan.py VIDEO [t0 t1]` |
 

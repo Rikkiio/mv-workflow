@@ -1,6 +1,6 @@
 # 合成引擎（src/mm）和镜头代码
 
-参考实现：`F:\mv\manimani\src`。这里写的是用的时候最常查的东西；细节以源码为准。
+代码在本 skill 的 `assets/template/src`；用户本机的完整参考实现 `F:\mv\manimani\src` 还多了全部镜头。这里写的是用的时候最常查的东西，细节以源码为准。
 
 ## 目录
 1. 文件结构
@@ -18,14 +18,15 @@
 |---|---|
 | `mm/engine.py` | `Engine`（moderngl 离屏渲染、着色器、后期）、`Cam`、`W, H = 1920, 1080`、`FOCAL = 1400` |
 | `mm/timeline.py` | `Shot` 基类、`Timeline`（选当前镜头、转场、子帧运动模糊）、`Ctx`（共享的字形缓存和贴图集） |
-| `mm/anim.py` | 缓动函数、`hexc`；节拍 `B(n)`、`bar(n)`、`beat_of(t)`；音频包络 `onset/rms/low`（导入时就读 `work/audio.json`） |
+| `mm/anim.py` | 缓动函数、`hexc`；节拍 `B(n)`、`bar(n)`、`beat_of(t)`；音频包络 `onset/rms/low`（导入时就读 `work/audio.json`，没有这个文件时按 120 BPM 占位） |
 | `mm/text.py` | 字体表、`glyph_rgba`、`text_rgba`、`GlyphCache`、`lyric_lines()`（读 `work/lyrics_timed_v2.json`） |
 | `mm/fx.py` | `make_paper()` 纸纹、`make_atlas()` 小精灵图集、`Field` 粒子场 |
 | `mm/elements.py` | 程序画的元素：`chochin` 灯笼、`kiku_ring` 菊花瓣环、`disc` 圆盘等 |
 | `mm/transfx.py`、`kit.py`、`lyrics.py`、`running.py` | 转场叠层、程序化构件、歌词排版、滚动歌词 |
+| `mm/paths.py` | 项目根目录 `ROOT`：按文件位置自动找到，环境变量 `MM_ROOT` 可以覆盖 |
 | `render.py` | 多进程分块渲染加配音；`--stills` 出静帧 |
 | `storyboard.py` | 各版本的 `build_*()`，每个返回一个 `Timeline` |
-| `shots/*.py` | 所有镜头；`common.py`、`b2common.py`、`b3.py` 是通用帮手 |
+| `shots/*.py` | 镜头；`common.py`、`b2common.py` 是通用帮手，`demo.py` 是模板里的演示镜头（参考实现里还有 `b3.py` 等） |
 
 ## 2. Shot 和 Timeline
 
@@ -116,10 +117,10 @@ class MyShot(Shot):
   - `cast_tex(shot, name)` 读角色图，`resolve()` 优先用 `_vec`、其次 `_full`、再其次原图，名字加 `@pr` 表示丝网印刷版；
   - `prop_tex`；`character(shot, name, x, y, z, h, ...)`；
   - `vignette_dark(e, a)`、`ember_field(...)`、`silhouette(...)`、`stamp(...)`、`with_flash(...)`。
-- `b3.py`：`figure(shot, name, x, y, h, mode="color"|"mono"|"pen"|"ghost"|"sil")` 一张角色图的几种处理，还有 `tatami`、`plate_pen` 等。
-- `act1.py`：`mist(e, y, h, col, a)`、`stars_field(seed, n)`、`MTN_UV`。
-- `back_v22.py`：`GrottoCam`（看向目标的摄像机，用来在合成器里做程序化 3D）、`ground_quad`、`PlateSeq`（Blender 底片序列）。
-- `intro_2d.py`：`gold_sun`、`beat_t(n)`、`step_ease`（按拍点一步一步走的缓动）。
+- 参考实现里的 `b3.py`：`figure(shot, name, x, y, h, mode="color"|"mono"|"pen"|"ghost"|"sil")` 一张角色图的几种处理，还有 `tatami`、`plate_pen` 等。
+- 参考实现里的 `act1.py`：`mist(e, y, h, col, a)`、`stars_field(seed, n)`、`MTN_UV`。
+- 参考实现里的 `back_v22.py`：`GrottoCam`（看向目标的摄像机，用来在合成器里做程序化 3D）、`ground_quad`、`PlateSeq`（Blender 底片序列）。
+- 参考实现里的 `intro_2d.py`：`gold_sun`、`beat_t(n)`、`step_ease`（按拍点一步一步走的缓动）。
 
 ## 8. 坑
 
@@ -131,4 +132,6 @@ class MyShot(Shot):
 - 生成素材的缓存键（`self.A` 的 key）要唯一，换了生成参数就换键，否则读到旧缓存。
 - 音节密集时，快速盖在移动路径上的字会堆在一起：后来的字要把前面的推开。
 - 字沿着圆环往上爬会读反：要从顶上绕过去往下走。
+- 转场 `goldcloud`、`rockpass`、`passer`、`firewall` 要用 `assets/kit/` 里的图（`transfx.py` 里 `KIT` 那一行的注释列了文件名），模板里没有。
+- 字体没下载时会临时换成系统字体（终端里有提示），出成片前要跑 `fonts/fetch_fonts.py`。
 - 子类覆盖了父类的 `draw` 但想复用父类的一部分时，把那部分拆成方法（比如 `draw_doors`、`row_part`），不要复制一大段代码。

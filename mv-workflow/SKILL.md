@@ -17,7 +17,11 @@ description: >-
 - **Blender**：渲大场景的三维底片。
 - **生成式图像**：只用来出素材（角色立绘、平面构件、底图），每张都要清理，统一成一套画风。
 
-参考实现是 `F:\mv\manimani`（《神のまにまに》，成片是 v32），新 MV 直接复用它的引擎和工具。本地没有这个目录时，从用户 GitHub 仓库 `manimani-mv` 的 `project/` 文件夹取。所有 Python 都用 `F:\mv\manimani\.venv\Scripts\python.exe`，里面装好了 moderngl、skia-python、opencv、scipy、torchaudio 等，任何项目目录都能用。
+引擎和工具在本 skill 的 `assets/template/`：一个可以整个复制的项目骨架，有合成引擎、渲染、音频分析、逐字对齐、素材清理、自检工具和一个演示镜头，用法见它的 README。
+
+完整的参考实现（全部镜头、素材和历次版本）是用户电脑上的 `F:\mv\manimani`（《神のまにまに》，成片 v32），只有用户本机有。文档里提到而模板里没有的工具（比如 `work/v32_tails.py`、`work/cover.py`、`work/turn_sun.py`）都在那里；在别的机器上，按文档描述的思路重写。
+
+Python 环境：用户本机用 `F:\mv\manimani\.venv\Scripts\python.exe`，依赖都装好了，任何项目目录都能用；别的机器按模板的 `requirements.txt` 建环境。
 
 ## 和用户怎么配合
 
@@ -60,16 +64,11 @@ description: >-
 
 ## 开新项目
 
-1. 建目录 `F:\mv\<名字>\`，下面建 `audio`、`assets\{cast,kit,plates,props}`、`gen`、`fonts`、`src\shots`、`src\blender`、`work`、`out`。
-2. 从参考实现复制：
-   - `src/mm/`（引擎）、`src/render.py`、`src/analyze_audio.py`；
-   - `work/syll_mms.py`（逐字对齐）；
-   - `src/shots/common.py` 和 `src/shots/b2common.py`（通用绘制帮手）；
-   - `fonts/` 整个目录；
-   - 工具脚本：`src/gpt_image.py`、`src/gpt_batch.py`、`work/cut_magenta.py`、`work/defringe_cast.py`、`work/celify.py`、`work/v30_deai.py`。
-3. 把复制过来的文件里写死的 `F:/mv/manimani` 换成新目录（`src/mm/anim.py`、`fx.py`、`text.py`、`transfx.py`，`src/render.py`，`src/shots/common.py` 里都有）。
-4. 把歌放进 `audio/song.mp3`，先跑 `analyze_audio.py`，因为 `mm/anim.py` 一导入就要读 `work/audio.json`。
-5. 写一个最小的 `storyboard.py`，里面一个 `build()` 返回 `Timeline([某个 Shot(0, 5)])`，渲一张静帧确认环境通了再往下做。
+1. 把本 skill 的 `assets/template/` 整个复制成 `F:\mv\<名字>\`（或用户指定的目录）。项目根目录由 `src/mm/paths.py` 按文件位置自动找到，复制过去不用改路径。
+2. 字体：`python fonts/fetch_fonts.py` 下载 14 个 Google 免费字体；在用户本机，直接从 `F:\mv\manimani\fonts` 复制更快。
+3. 渲演示镜头的静帧，确认环境通了：`python src/render.py work/stills --stills 1,4,7`。
+4. 歌放进 `audio/song.mp3`（有 LRC 就放 `audio/song.lrc`），跑 `python src/analyze_audio.py`。没跑之前，引擎按 120 BPM 的占位节拍走。
+5. 在 `src/shots/` 写镜头（`demo.py` 是起点），在 `src/storyboard.py` 排时间线。参考实现的 `src/shots/` 里有几十个现成镜头，可以照着写。
 
 ## 常用命令
 
