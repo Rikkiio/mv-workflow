@@ -7,6 +7,7 @@ description: >-
   只要用户想给一首歌做 MV/PV、接着改一支做到一半的 MV（"这个镜头…""字幕看不清""改回原版""出 v33"）、从 MV 出封面、缩略图或插图，
   或者写 MV 的简介、标题和标签，都要用这个 skill，哪怕用户没提"工作流"。Use it for making or revising a music video from a song
   with this code pipeline, and for its covers, stills and upload text.
+license: MIT (see LICENSE.txt)
 ---
 
 # MV 工作流

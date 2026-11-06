@@ -39,3 +39,7 @@ A Claude Code skill (written in Chinese) for making music videos with code: beat
 
 - 模板里是通用的引擎和工具；《神のまにまに》MV 本身的镜头代码、素材、音频和歌词都不在这里。文档里偶尔提到的个别专用脚本（比如做封面、插图的）只在作者本地的项目里。
 - 字体用的是 14 个 Google Fonts 免费字体（SIL OFL），仓库里不附带，由 `fonts/fetch_fonts.py` 从 Google Fonts 的 GitHub 仓库下载。
+
+## 协议
+
+[MIT](LICENSE)：可以自由使用、修改和再发布，保留版权声明就行。协议只覆盖这个仓库里的代码和文档：字体是下载来的，各自按 SIL OFL 协议；《神のまにまに》的原曲、歌词和角色都不在这个仓库里，也不在协议范围内。
